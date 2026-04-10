@@ -1,14 +1,14 @@
 <?php
-    // Start session
+    // Start session.
     session_start();
 
-    // If the user is already logged in, redirect to home page
+    // If the user is already logged in, redirect to home page.
     if (isset($_SESSION["username"])) {
         header("Location: home.php");
         exit();
     }
 
-    // Check if the error parameter is set in the URL
+    // Check if the error parameter is set in the URL.
     if (isset($_GET['error']) && $_GET['error'] == 1) {
         echo '<p style="color: red;">Incorrect username or password. Please try again.</p>';
     }

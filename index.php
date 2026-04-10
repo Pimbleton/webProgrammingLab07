@@ -1,9 +1,8 @@
 <?php
-  if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-  }
+  // Start session.
+  session_start();
 
-  // If the user is already logged in, redirect to home page
+  // If the user is already logged in, redirect to home page instead.
   if (isset($_SESSION["username"])) {
     header("Location: home.php");
     exit();

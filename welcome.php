@@ -1,21 +1,21 @@
 <?php
-    // Start session
+    // Start session.
     session_start();
 
-    // If the user is not logged in, redirect to login page
+    // If the user is not logged in, redirect to login page.
     if (!isset($_SESSION["username"])) {
         header("Location: login.php");
         exit();
     }
 
-    // Redirect to home page after 5 seconds
-    header("refresh: 5; url = home.php");
+    // Redirect to home page after 5 seconds.
+    header("refresh: 3; url = home.php");
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Success!</title>
+        <title>Successful login!</title>
     </head>
 
     <body>
