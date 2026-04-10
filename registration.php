@@ -26,49 +26,57 @@
 </html>
 
 <?php
-    // Start session
+    // Start session.
     session_start();
 
-    // If the user is already logged in, redirect to home page
+    // If the user is already logged in, redirect to home page.
     if (isset($_SESSION["username"])) {
         header("Location: home.php");
         exit();
     }
 
-    // Link vars file and connect to DB
+    // Link vars file and connect to DB.
     include('/home/hah1049/PHP-Includes/php-vars.inc');
     $conn = mysqli_connect($db_server, $user, $password, $db_names);
 
-    // Pull the data from the form and sanitize it
-    $username = trim(addslashes($_POST["uname"]));
-    $passcode = trim(addslashes($_POST["psw"]));
-    $email = trim(addslashes($_POST["email"]));
-
-    // Check if login button is clicked
+    // Check if login button is clicked.
     if (isset($_POST["login"])) {
 
-        // Checks whether either of the three fields are empty
-        // If all are filled, carry on to password check
-        // If any of them are, print error message
-        if (!empty($_POST["uname"]) && !empty($_POST["psw"]) && !empty($_POST["psw2"])) {
+        // Pull the data from the form and sanitize it.
+        $username = trim(addslashes($_POST["uname"]));
+        $passcode = trim(addslashes($_POST["psw"]));
+        $passcode2 = trim(addslashes($_POST["psw2"]));
+        $email = trim(addslashes($_POST["email"]));
+
+        // Checks whether either of the three fields are empty.
+        if (!empty($username) && !empty($passcode) && !empty($passcode2)) {
             
-            // Checks that both password fields match
-            // If they do, insert user into accounts table
-            // If not, print error message
-            if ($_POST["psw"] == $_POST["psw2"]) {
-                $sql_string = "INSERT INTO accounts(username, password, email) VALUES ('$username','$passcode','$email')";
-                mysqli_query($conn, $sql_string);
+            // Checks that both password fields match.
+            if ($passcode == $passcode2) {
+                // Prepare the INSERT statement with placeholder ?s.
+                $sql_string = "INSERT INTO accounts (username, password, email) VALUES (?, ?, ?)";
+                
+                // Prepare the statement.
+                $stmt = mysqli_prepare($conn, $sql_string);
+
+                // Bind the variables to the placeholder ?s in the staement, then execute it.
+                mysqli_stmt_bind_param($stmt, "sss", $username, $passcode, $email);
+                mysqli_stmt_execute($stmt);
+
                 echo "User data is registered! Go to the <a href='login.php'>login page</a> to log in.";
+
+                // Close the statement.
+                mysqli_stmt_close($stmt);
             } else {
-                echo "Both Passwords dont match";
+                echo "Error: Passwords do not match. Please try again. <br>";
             }
         } else {
-            echo "Missing username or password fix it <br>";
+            echo "Missing username or password. Please fill in all fields.<br>";
         }
     } else {
         echo "Waiting for entry...";
     }
 
-    // Close the connection
+    // Close the connection.
     mysqli_close($conn);
 ?>
