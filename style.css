@@ -3,8 +3,14 @@ body {
     color: white;
 }
 
+/* ── Hero (index.php) ── */
+/* Base style: inline style on the <section> tag sets the actual image URL.
+   This class handles sizing, layout, and the dark-background fallback. */
 .hero {
-    background: url('https://images.unsplash.com/photo-1555992336-cbf9d5f4f5e0') no-repeat center center/cover;
+    background-color: #1a1a1a; /* fallback if image fails to load */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
     height: 90vh;
     display: flex;
     align-items: center;
@@ -12,14 +18,16 @@ body {
     text-align: center;
 }
 
+/* ── Inner-page background (menu, about, contact, login, register) ── */
 .page-bg {
-    background: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0') no-repeat center center/cover;
+    background: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1600&q=80') no-repeat center center / cover fixed;
     min-height: 100vh;
     padding-top: 80px;
 }
 
+/* ── Dark overlay card used on all pages ── */
 .overlay {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.75);
     padding: 30px;
     border-radius: 10px;
 }
